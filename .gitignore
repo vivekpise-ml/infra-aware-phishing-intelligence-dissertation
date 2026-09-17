@@ -1,0 +1,13 @@
+data/*
+data/drift/
+!data/feature_cache/
+!data/kaggle/drift_reference.csv
+!data/test_batch
+!data/campaign_reference.csv
+!data/drift_reference.csv
+!data/ind_strat_sample_campaign.csv
+models
+reports
+__pychache__/
+*.pyc
+.env
