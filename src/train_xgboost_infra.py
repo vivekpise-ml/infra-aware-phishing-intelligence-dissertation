@@ -99,6 +99,47 @@ def train_xgboost_infra():
     print("Unique domains:", df["domain"].nunique())
     print("Total URLs:", len(df))
 
+    # ---------------------------------------------------
+    # SAVE EXACT 1500-URL TRAINING SAMPLE
+    # ---------------------------------------------------
+    # This is a diagnostic/reproducibility snapshot only.
+    # It does NOT modify the training dataframe.
+    #
+    # The CSV is saved here because:
+    #   1. the exact 1500 rows have already been selected
+    #   2. the exact training 'domain' value has been created
+    #   3. no feature extraction has started yet
+    #
+    # Therefore this CSV represents exactly what this
+    # training run will use for infrastructure extraction.
+    # ---------------------------------------------------
+
+    training_sample_dir = "results/ablation"
+    os.makedirs(training_sample_dir, exist_ok=True)
+
+    training_sample_path = os.path.join(
+        training_sample_dir,
+        "training_sample_1500.csv"
+    )
+
+    training_sample = df[
+        ["url", label_col, "domain"]
+    ].copy()
+
+    training_sample.to_csv(
+        training_sample_path,
+        index=False
+    )
+
+    print(
+        f"\nExact training sample saved to: "
+        f"{training_sample_path}"
+    )
+    print(
+        f"Training sample rows saved: "
+        f"{len(training_sample)}"
+    )
+
     # detect label
    
     '''

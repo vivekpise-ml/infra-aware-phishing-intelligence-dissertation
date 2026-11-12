@@ -375,12 +375,37 @@ class DriftService:
 
             if cached_feature_df is not None:
 
-                print(
-                    "Persisted Drift feature dataset detected. "
-                    "Reusing cached features."
-                )
+                # -------------------------------------------------
+                # Validate cached dataset row count
+                # -------------------------------------------------
+                if len(cached_feature_df) == len(dataframe):
 
-                feature_df = cached_feature_df
+                    print(
+                        "Persisted Drift feature dataset detected. "
+                        "Reusing cached features."
+                    )
+
+                    feature_df = cached_feature_df
+
+                else:
+
+                    print(
+                        "[DriftService] Persisted feature dataset "
+                        "row count mismatch: "
+                        f"cached={len(cached_feature_df)}, "
+                        f"current={len(dataframe)}. "
+                        "Rebuilding feature dataset."
+                    )
+
+                    feature_df = self.extract_features(
+                        dataframe,
+                        dataset_label=dataset_label
+                    )
+
+                    self.save_feature_dataset(
+                        feature_df,
+                        dataset_name
+                    )
 
             else:
 
@@ -394,7 +419,6 @@ class DriftService:
                     dataset_label=dataset_label
                 )
 
-                # Automatically cache extracted features
                 self.save_feature_dataset(
                     feature_df,
                     dataset_name

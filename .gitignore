@@ -8,6 +8,10 @@ data/drift/
 !data/ind_strat_sample_campaign.csv
 models
 reports
+results/*
+!results/ablation/
+results/ablation/*
+!results/ablation/ablation_report.md
 __pychache__/
 *.pyc
 .env
